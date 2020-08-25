@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <title>Hilarious Editor</title>
   <link rel="stylesheet" href="/css/hilarious.css" />
+  <link rel="stylesheet" href="/vendor/prism.css" />
 </head>
 <body
   ><div class="textarea_with_linenos"
@@ -35,7 +36,7 @@
     ><div id="choices"></div
     ><div id="notes">Known bugs: You are not protected from editing your stuff twice; The editor doesn't notice if the file disappears and it keeps overwriting it.</div
   ></div
-  ><textarea id="testline"></textarea>
+  ><textarea id="testline"></textarea><pre class="syntax_highlighting"><code></code></pre>
 <script src="/vendor/underscore-min.js"></script>
 <script src="/vendor/jquery.min.js"></script>
 <script src="/js/polyfills.js"></script>
@@ -43,6 +44,7 @@
 <script src="/vendor/bililiteRange.js"></script>
 <script src="/modified_vendor/bililiteRange.util.js"></script>
 <script src="/vendor/xregexp-all.js"></script>
+<script src="/vendor/prism.js" data-manual></script>
 <script src="/js/hilarious-dull-algorithms.js"></script>
 <script src="/js/hilarious.js"></script>
 <script src="/js/saving.js"></script>

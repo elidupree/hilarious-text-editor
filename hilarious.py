@@ -69,7 +69,9 @@ static_resources = [
   'vendor/bililiteRange.js',
   'modified_vendor/bililiteRange.util.js',
   'vendor/xregexp-all.js',
-  'generated/unicode_names_map.json'
+  'generated/unicode_names_map.json',
+  'vendor/prism.js',
+  'vendor/prism.css',
   ]
 
 class ThreadingHTTPServer(socketserver.ThreadingMixIn, http.server.HTTPServer):

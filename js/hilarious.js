@@ -304,6 +304,13 @@ function compute_line_numbers() {
       editor.style.height = $linenos.height() + 'px';
     }
   }
+  
+  
+  /*var html = Prism.highlight(state.textarea_value, Prism.languages.rust, 'rust');
+  console.log("foo", html);*/
+  /*$(".syntax_highlighting").addClass("language-rust");
+  $(".syntax_highlighting>code").addClass("language-rust").text(state.textarea_value);
+  Prism.highlightAll(true);*/
 }
 var debounced_compute_line_numbers = _.debounce(compute_line_numbers, 50);
 
