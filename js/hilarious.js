@@ -44,6 +44,9 @@ var state = hilarious.state = {
 
   // filename: { selectionStart: _, selectionEnd: _, selectionDirection: _}
   remembered_selections: {},
+  
+  // filename: [x, y]
+  remembered_scroll_positions: {},
 
   saving: {
     trying_to_save: false,
@@ -756,10 +759,22 @@ function restore_selection_location() {
     editor.setSelectionRange(0, 0);
   }
 }
+function save_scroll_location() {
+  var file = total_current_file();
+  state.remembered_scroll_positions[file] = [window.pageXOffset, window.pageYOffset];
+}
+function restore_scroll_location() {
+  var file = total_current_file();
+  var scroll = state.remembered_scroll_positions[file];
+  if (scroll) {
+    window.scrollTo(scroll[0], scroll[1]);
+  }
+}
 
 hilarious.loaded_file = function(filename, contents) {
   if(editor != null) {
     save_selection_location();
+    save_scroll_location()
     $(editor).blur();
   }
   state.current_file = filename;
@@ -769,6 +784,7 @@ hilarious.loaded_file = function(filename, contents) {
   set_textarea_contents(contents);
   adjust_editor_height(true);
   restore_selection_location();
+  restore_scroll_location();
   fix_reflow_bugs();
 
   $(editor).focus();
@@ -802,6 +818,14 @@ if(stateJSON != null) {
     //delete state.textarea_value;
     adjust_editor_height(true);
     restore_selection_location();
+    // Note: it doesn't work to restore the scroll position until AFTER it
+    // actually redisplays the text, so wait until after it redisplays
+    // (requestAnimationFrame goes BEFORE the next repaint)
+    window.requestAnimationFrame(function(){
+      window.requestAnimationFrame(function(){
+        restore_scroll_location();
+      });
+    });
     fix_reflow_bugs();
   }
   hilarious.display_context_name();
