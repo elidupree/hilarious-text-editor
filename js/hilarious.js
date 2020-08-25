@@ -64,7 +64,7 @@ var state = hilarious.state = {
 //   (indexes are in UTF-16 code units, per javascript).
 var line_code_unit_indexes = null;
 
-var intended_editor_width = 80;
+var intended_editor_width = 100;
 
 function set_textarea_contents(text) {
   // goal:
