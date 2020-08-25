@@ -431,11 +431,23 @@ def main():
   if args.on_save != None:
     # make immutable copy for closure
     on_save_tuple = tuple(args.on_save)
+    running_processes = []
     def on_save(filename):
+      for (command, process) in running_processes:
+        if process.poll():
+          sys.stderr.write('\nOld process already exited with status ' + str(process.returncode) + ' from: ' + command + '\n')
+        else:
+          subprocess.call(['taskkill', '/T', '/F', '/PID', str(process.pid)])
+          #process.terminate()
+          #sys.stderr.write('\nTerminated old process, exited with status ' + str(process.wait()) + ' from: ' + command + '\n')
+      # Reset the color, in case a terminated process left a color lying around
+      print('\x1b[0m', end='')
+      running_processes[:] = []
       for command in on_save_tuple:
         sys.stderr.write('Running: ' + command + '\n')
-        exitcode = subprocess.call(command, shell=True)
-        sys.stderr.write('\nExit status ' + str(exitcode) + ' from: ' + command + '\n')
+        running_processes.append ((command, subprocess.Popen (command, shell=True)))
+        #exitcode = subprocess.call(command, shell=True)
+        #sys.stderr.write('\nExit status ' + str(exitcode) + ' from: ' + command + '\n')
 
   # make immutable copy for closure
   exclude_regexps = tuple(args.exclude_re) if args.exclude_re else ()
